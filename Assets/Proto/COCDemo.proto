@@ -1,0 +1,102 @@
+syntax="proto3";
+package grpc;
+option csharp_namespace = "GrpcCOCDemo";
+option go_package="kotoko_server/shared/grpc";
+
+service COCDemo {
+    rpc GetObjectList(GetObjectListRequest) returns (GetObjectListResponse) {}
+    rpc GetSkillList(GetSkillListRequest) returns (GetSkillListResponse) {}
+
+    rpc CheckFeasible(CheckFeasibleRequest) returns (CheckFeasibleResponse) {}
+    rpc GetSkillUsed(GetSkillUsedRequest) returns (GetSkillUsedResponse) {}
+    rpc GetObjectReply(GetObjectReplyRequest) returns (GetObjectReplyResponse) {}
+    rpc GetObjectAction(GetObjectActionRequest) returns (GetObjectActionResponse) {}
+    // rpc GetKeyObjectStatus(GetKeyObjectStatusRequest) returns (GetKeyObjectStatusResponse) {}
+}
+
+message DataPair {
+    int32 id = 1;
+    string name = 2;
+}
+
+message Object {
+    DataPair object_info = 1;
+    int32 object_type = 2;
+    string last_status = 3;
+    string resourse_name = 4;
+    bool is_key_object = 5;
+}
+
+message Skill {
+    DataPair skill_info = 1;
+    int32 num =2;
+}
+
+message GetObjectListRequest {
+    int32 story_id = 1;
+}
+
+message GetObjectListResponse {
+    repeated Object object_list = 1;
+}
+
+message GetSkillListRequest {
+    int32 user_id = 1;
+}
+
+message GetSkillListResponse {
+    repeated Skill skill_list = 1;
+}
+
+message CheckFeasibleRequest {
+    int32 story_id = 1;
+    string whisper_content = 2;
+}
+
+message CheckFeasibleResponse {
+    bool is_feasible = 1;
+}
+
+message GetSkillUsedRequest {
+    string whisper_content = 1;
+}
+
+message GetSkillUsedResponse {
+    DataPair skill = 1;
+}
+
+message GetObjectReplyRequest {
+    int32 story_id = 1;
+    string whisper_content = 2;
+    repeated Object env_info_list = 3;
+    bool skill_state = 4;
+}
+
+message GetObjectReplyResponse {
+    repeated Object reply_list = 1;
+}
+
+message Action {
+    int32 action_type = 1;
+    string action_description = 2;
+    DataPair action_object = 3;
+    string talk_content = 4;
+    repeated DataPair emoji_list = 5;
+}
+
+message GetObjectActionRequest {
+    Object object = 1;
+}
+
+message GetObjectActionResponse {
+    Action action = 1;
+}
+
+message GetKeyObjectStatusRequest {
+    int32 story_id = 1;
+    Object object = 2;
+}
+
+message GetKeyObjectStatusResponse {
+    int32 status_id = 1;
+}
